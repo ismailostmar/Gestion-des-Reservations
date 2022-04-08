@@ -2,6 +2,7 @@ package SGABSHACKALB.Gestion.des.Reservations.Controller;
 
 import SGABSHACKALB.Gestion.des.Reservations.Entities.Collaborateur;
 import SGABSHACKALB.Gestion.des.Reservations.Entities.Etage;
+import SGABSHACKALB.Gestion.des.Reservations.Entities.Reservation;
 import SGABSHACKALB.Gestion.des.Reservations.Repositories.CollaborateurRepository;
 import SGABSHACKALB.Gestion.des.Reservations.Repositories.EtageRepository;
 import SGABSHACKALB.Gestion.des.Reservations.Repositories.ReservationRepository;
@@ -62,5 +63,29 @@ public class ReservationController {
     @GetMapping(path = "/etage/{domaineEtage}")
     public Etage getEtage(@PathVariable String domaineEtage) {
         return etageRepository.findByDomaineEtage(domaineEtage);
+    }
+
+    //**************************** Reservations *****************************************//
+
+    @GetMapping(path = "/reservation")
+    public List<Reservation> reservationList(){
+        return reservationRepository.findAll();
+    }
+
+    @GetMapping(path = "/reservation/{position}")
+    public Reservation getReservation(@PathVariable String position){
+        return  reservationRepository.findByPosition(position);
+    }
+
+    @PostMapping(path = "/saveReservation")
+    public HttpStatus newReservation(@RequestBody Reservation reservation){
+        reservationRepository.save(reservation);
+        return HttpStatus.CREATED;
+    }
+
+    @DeleteMapping(path = "/supprimerReservation")
+    public HttpStatus deleteById(@PathVariable(name = "id") Long id){
+        reservationRepository.deleteById(id);
+        return HttpStatus.GONE;
     }
 }
