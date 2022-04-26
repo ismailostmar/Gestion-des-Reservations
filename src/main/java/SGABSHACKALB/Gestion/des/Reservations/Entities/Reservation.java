@@ -22,7 +22,7 @@ public class Reservation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    @JsonFormat(pattern = "yyyy-mm-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private Date dateReservation = new Date();
     private String position;
     private Boolean isReserved;
