@@ -32,14 +32,7 @@ public class ReservationController {
     public Collaborateur getCollab(@PathVariable String nom) {
         return collaborateurRepository.findByNom(nom.toLowerCase());
     }
-
-    @GetMapping(path = "/collab/domaine")
-    public Collaborateur getCollabDomaine(@PathVariable String domaine) {
-        return collaborateurRepository.findByDomaine(domaine);
-    }
-
     //***************************** Etage ********************************************//
-
 
     @GetMapping(path = "/etage")
     public List<Etage> etages() {
