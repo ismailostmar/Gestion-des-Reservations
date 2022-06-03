@@ -5,12 +5,9 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,7 +20,10 @@ public class Reservation implements Serializable {
     private Long id;
     @NotNull
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
-    private Date dateReservation = new Date();
+    private Date dateDebut;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
+    private Date dateFin;
     private String position;
     private Boolean isReserved;
     @ManyToOne
@@ -34,7 +34,8 @@ public class Reservation implements Serializable {
     @Override
     public String toString() {
         return "Reservation{" +
-                "dateReservation=" + dateReservation +
+                "dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
                 ", position='" + position + '\'' +
                 ", isReserved=" + isReserved +
                 '}';
