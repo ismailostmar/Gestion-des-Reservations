@@ -29,5 +29,5 @@ public class Etage implements Serializable {
 
     @OneToMany(mappedBy = "etage" , fetch = FetchType.LAZY)
     @JsonIgnore
-    private Collection<Reservation> reservations;
+    private Collection<Place> places;
 }

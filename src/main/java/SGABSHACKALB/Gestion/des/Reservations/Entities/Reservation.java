@@ -24,19 +24,17 @@ public class Reservation implements Serializable {
     @NotNull
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private Date dateFin;
-    private String position;
     private Boolean isReserved;
     @ManyToOne
     private Collaborateur collaborateur;
     @ManyToOne
-    private Etage etage;
+    private Place place;
 
     @Override
     public String toString() {
         return "Reservation{" +
                 "dateDebut=" + dateDebut +
                 ", dateFin=" + dateFin +
-                ", position='" + position + '\'' +
                 ", isReserved=" + isReserved +
                 '}';
     }

@@ -51,10 +51,6 @@ public class ReservationController {
         return reservationRepository.findAll();
     }
 
-    @GetMapping(path = "/reservation/{position}")
-    public Reservation getReservation(@PathVariable String position){
-        return  reservationRepository.findByPosition(position);
-    }
     @DeleteMapping(path = "/supprimerReservation")
     public HttpStatus deleteById(@PathVariable(name = "id") Long id){
         reservationRepository.deleteById(id);

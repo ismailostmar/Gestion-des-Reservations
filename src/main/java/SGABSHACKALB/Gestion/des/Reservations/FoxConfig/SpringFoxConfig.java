@@ -19,9 +19,9 @@ public class SpringFoxConfig {
         return new ApiInfo(
           "My REST API",
           "Some custom description of API.",
-          "1.0",
+          "1.1",
           "Terms of service",
-          new Contact("SG ABS","www.test.com", "test@gmail.com")  ,
+          new Contact("Société Generale African Business Services","www.hacklab.afrique.com", "contact@SGABS.com")  ,
           "License of API",
           "API License URL",
                 Collections.emptyList());
@@ -36,7 +36,7 @@ public class SpringFoxConfig {
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("gloabl","accessEverything");
+        AuthorizationScope authorizationScope = new AuthorizationScope("global","accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("JWT",authorizationScopes));
