@@ -12,7 +12,6 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 public class Place {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +26,6 @@ public class Place {
         this.latY = latY;
         this.rayon = rayon;
     }
-
     @ManyToOne
     private Etage etage;
 
