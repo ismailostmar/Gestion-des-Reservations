@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService{
-    private  AppRoleRepository appRoleRepository;
-    private  AppUserRepository appUserRepository;
-    private  PasswordEncoder passwordEncoder;
+    private AppRoleRepository appRoleRepository;
+    private AppUserRepository appUserRepository;
+    private PasswordEncoder passwordEncoder;
 
 
     public AccountServiceImpl(AppRoleRepository appRoleRepository, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
@@ -35,6 +35,8 @@ public class AccountServiceImpl implements AccountService{
     public AppRole addNewRole(AppRole appRole) {
         return appRoleRepository.save(appRole);
     }
+
+    // Adding Role to a Specific User
 
     @Override
     public void addRoleToUser(String username, String roleName) {
