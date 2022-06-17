@@ -22,16 +22,18 @@ public class GestionDesReservationsApplication {
     public static void main(String[] args) {
         SpringApplication.run(GestionDesReservationsApplication.class, args);
     }
+
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    CommandLineRunner start(AccountService accountService){
+    CommandLineRunner start(AccountService accountService) {
         return args -> {
-            accountService.addNewRole(new AppRole(null,"ADMIN"));
-            accountService.addNewUser(new AppUser(null,"USER1","1234",new ArrayList<>()));
-            accountService.addRoleToUser("USER1","ADMIN");
+            accountService.addNewRole(new AppRole(null, "ADMIN"));
+            accountService.addNewUser(new AppUser(null, "USER1", "1234", new ArrayList<>()));
+            accountService.addRoleToUser("USER1", "ADMIN");
         };
     }
 }

@@ -12,10 +12,10 @@ import java.util.List;
 
 @Service
 @Transactional
-public class AccountServiceImpl implements AccountService{
-    private AppRoleRepository appRoleRepository;
-    private AppUserRepository appUserRepository;
-    private PasswordEncoder passwordEncoder;
+public class AccountServiceImpl implements AccountService {
+    private  AppRoleRepository appRoleRepository;
+    private  AppUserRepository appUserRepository;
+    private  PasswordEncoder passwordEncoder;
 
 
     public AccountServiceImpl(AppRoleRepository appRoleRepository, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
