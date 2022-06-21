@@ -3,10 +3,10 @@ package SGABSHACKALB.Gestion.des.Reservations.Security.Web;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppRole;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppUser;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Services.AccountService;
+import SGABSHACKALB.Gestion.des.Reservations.Security.JWTUtile;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -65,12 +65,12 @@ public class AccountRestController {
     //  END-POINT OF REFRESH TOKEN
 
     @PostMapping("/refreshToken")
-    public Map<String, String> refreshToken(HttpServletRequest request , HttpServletResponse response) throws IOException {
-        String token = request.getHeader("Authorization");
-        if( token != null && token.startsWith("Bearer ") ){
+    public void refreshToken(HttpServletRequest request , HttpServletResponse response) throws Exception {
+        String authToken = request.getHeader(JWTUtile.AUTH_HEADER);
+        if( authToken != null && authToken.startsWith(JWTUtile.PREFIX) ){
             try {
-                String jwtRefreshToken = token.substring(7);
-                Algorithm algorithm = Algorithm.HMAC256("HACKLABHACK");
+                String jwtRefreshToken = authToken.substring(JWTUtile.PREFIX.length());
+                Algorithm algorithm = Algorithm.HMAC256(JWTUtile.SECRET);
                 JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = jwtVerifier.verify(jwtRefreshToken);
                 String username = decodedJWT.getSubject();
@@ -78,21 +78,21 @@ public class AccountRestController {
                 String jwtAccessToken = JWT
                         .create()
                         .withSubject(appUser.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 6 *1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + JWTUtile.EXPIRE_ACCESS_TOKEN))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", appUser.getAppRoles().stream().map(e -> e.getRoleName()).collect(Collectors.toList()))
+                        .withClaim(JWTUtile.CLAIM_NAME, appUser.getAppRoles().stream().map(e -> e.getRoleName()).collect(Collectors.toList()))
                         .sign(algorithm);
+
                 Map<String, String> idToken = new HashMap<>();
-                idToken.put("Access_Token", jwtAccessToken);
-                idToken.put("Refresh_Token", jwtRefreshToken);
-                response.setContentType("application/json");
+                idToken.put(JWTUtile.ACCESS_TKN, jwtAccessToken);
+                idToken.put(JWTUtile.REFRESH_TKN, jwtRefreshToken);
+                response.setContentType(JWTUtile.CONTENT_TYPE);
                 new ObjectMapper().writeValue(response.getOutputStream(),idToken);
-                return idToken;
             } catch (Exception e){
                 throw e;
             }
         } else {
-            throw new RuntimeException("Refresh Token required");
+            throw new RuntimeException(JWTUtile.REFRESH_TOKEN_REQUIRED);
         }
     }
 }
