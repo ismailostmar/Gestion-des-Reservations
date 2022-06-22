@@ -32,8 +32,8 @@ public class GestionDesReservationsApplication {
     CommandLineRunner start(AccountService accountService) {
         return args -> {
             accountService.addNewRole(new AppRole(null, "ADMIN"));
-            accountService.addNewUser(new AppUser(null, "USER1", "1234", new ArrayList<>()));
-            accountService.addRoleToUser("USER1", "ADMIN");
+            accountService.addNewUser(new AppUser(null, "USER", "1234", new ArrayList<>()));
+            accountService.addRoleToUser("USER", "ADMIN");
         };
     }
 }

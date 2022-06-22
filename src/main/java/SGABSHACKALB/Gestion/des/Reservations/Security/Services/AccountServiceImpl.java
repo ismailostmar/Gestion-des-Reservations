@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
-    private  AppRoleRepository appRoleRepository;
-    private  AppUserRepository appUserRepository;
-    private  PasswordEncoder passwordEncoder;
+    private  final AppRoleRepository appRoleRepository;
+    private final  AppUserRepository appUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public AccountServiceImpl(AppRoleRepository appRoleRepository, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {

@@ -17,9 +17,9 @@ import java.util.List;
 public class SpringFoxConfig {
     private ApiInfo apiInfo(){
         return new ApiInfo(
-          "My REST API",
-          "Some custom description of API.",
-          "1.1",
+          "FLEX-OFFICE API REST",
+          "DESCRIPTION DES APIs REST",
+          "1.2",
           "Terms of service",
           new Contact("Société Generale African Business Services","www.hacklab.afrique.com", "contact@SGABS.com")  ,
           "License of API",
@@ -41,7 +41,6 @@ public class SpringFoxConfig {
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("JWT",authorizationScopes));
     }
-
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
