@@ -18,53 +18,48 @@ import lombok.Data;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/* Controller Account */
 @RestController
 public class AccountRestController {
-
     @Data
     class RoleUserForm{
         private String username;
         private String rolename;
     }
-    private AccountService accountService;
-
+    private final AccountService accountService;
+    /* Constrcutor with arguments */
     public AccountRestController(AccountService accountService) {
         this.accountService = accountService;
     }
-
     @GetMapping(path = "/users")
-    @PostAuthorize("hasAuthority('USER')")
+    @PostAuthorize("hasAuthority('ADMIN')")
     public List<AppUser> appUsers(){
         return accountService.listUsers();
     }
-
     @PostMapping(path = "/users")
     @PostAuthorize("hasAuthority('ADMIN')")
     public AppUser saveUser(@RequestBody AppUser appUser){
         return accountService.addNewUser(appUser);
     }
-
     @PostMapping(path = "/roles")
     @PostAuthorize("hasAuthority('ADMIN')")
     public AppRole saveRole(@RequestBody AppRole appRole) {
         return accountService.addNewRole(appRole);
     }
-
     @PostMapping(path = "/addRoleToUser")
     public void addRoleToUser(@RequestBody RoleUserForm roleUserForm) {
         accountService.addRoleToUser(roleUserForm.getUsername(), roleUserForm.getRolename());
     }
-
-    //  END-POINT OF REFRESH TOKEN
-
-    @PostMapping("/refreshToken")
+    //  END-POINT OF REFRESH TOKEN for re-generate the Access Token
+    @GetMapping("/refreshToken")
+    @PostAuthorize("hasAuthority('ADMIN')")
     public void refreshToken(HttpServletRequest request , HttpServletResponse response) throws Exception {
         String authToken = request.getHeader(JWTUtile.AUTH_HEADER);
         if( authToken != null && authToken.startsWith(JWTUtile.PREFIX) ){
@@ -91,8 +86,15 @@ public class AccountRestController {
             } catch (Exception e){
                 throw e;
             }
-        } else {
+        }
+        else {
             throw new RuntimeException(JWTUtile.REFRESH_TOKEN_REQUIRED);
         }
+    }
+
+    @GetMapping(path = "/profile")
+    @PostAuthorize("hasAuthority('ADMIN')")
+    public AppUser profileUser(Principal principal){
+        return accountService.loadUserByUsername(principal.getName());
     }
 }
