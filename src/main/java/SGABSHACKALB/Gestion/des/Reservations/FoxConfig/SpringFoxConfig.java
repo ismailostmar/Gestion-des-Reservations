@@ -19,9 +19,9 @@ public class SpringFoxConfig {
         return new ApiInfo(
           "FLEX-OFFICE API REST",
           "DESCRIPTION DES APIs REST",
-          "1.2",
+          "1.0",
           "Terms of service",
-          new Contact("Société Generale African Business Services","www.hacklab.afrique.com", "contact@SGABS.com")  ,
+          new Contact("Societe Generale African Business Services","www.hacklab.afrique.com", "contact@SGABS.com")  ,
           "License of API",
           "API License URL",
                 Collections.emptyList());

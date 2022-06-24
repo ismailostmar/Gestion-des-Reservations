@@ -22,46 +22,38 @@ import java.util.Collection;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/refreshToken")){
-            filterChain.doFilter(request,response);
-        }
-        else {
+        if (request.getServletPath().equals("/refreshToken")) {
+            filterChain.doFilter(request, response);
+        } else {
             String authorizationToken = request.getHeader(JWTUtile.AUTH_HEADER);
-            if(authorizationToken != null && authorizationToken.startsWith(JWTUtile.PREFIX)){
+            if (authorizationToken != null && authorizationToken.startsWith(JWTUtile.PREFIX)) {
                 try {
                     // Test of Request & Verification
                     String jwt = authorizationToken.substring(7);
                     Algorithm algorithm = Algorithm.HMAC256(JWTUtile.SECRET);
-
                     // Verification
-
                     JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
-
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim(JWTUtile.CLAIM_NAME).asArray(String.class);
                     Collection<GrantedAuthority> authorities = new ArrayList<>();
-
-                    for (String r:roles){
+                    for (String r : roles) {
                         authorities.add(new SimpleGrantedAuthority(r));
                     }
-
                     // The User here can be Authenticated
                     UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(username,null,authorities);
+                            new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
                     // Before Authentication
-                    filterChain.doFilter(request,response);
-                }
-                catch (Exception e){
+                    filterChain.doFilter(request, response);
+                } catch (Exception e) {
                     response.setHeader("Error-Message", e.getMessage());
-                    // Si le Token est expiré , alors l'utilisateur n'est pas alloué d'avoir l'access
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    // if the token has been expired the user will not have the key to access
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN); // 403
                 }
             }
             else {
-                filterChain.doFilter(request,response);
+                filterChain.doFilter(request, response);
             }
         }
     }

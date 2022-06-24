@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ JWTUtile.EXPIRE_ACCESS_TOKEN))
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim(JWTUtile.CLAIM_NAME,user.getAuthorities().stream().map(ac -> ac.getAuthority()).collect(Collectors.toList()))
+                .withClaim(JWTUtile.CLAIM_NAME,user.getAuthorities().stream().map(ga -> ga.getAuthority()).collect(Collectors.toList()))
                 .sign(algorithm1);
 
         // JWT : Refresh Token
@@ -71,6 +71,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         IdTok.put(JWTUtile.ACCESS_TKN,jwtAccessToken);
         IdTok.put(JWTUtile.REFRESH_TKN,jwtRefreshToken);
         response.setContentType(JWTUtile.CONTENT_TYPE);
+        // For serialize an Object to a JSON FORMAT
         new ObjectMapper().writeValue(response.getOutputStream(),IdTok);
     }
 }
