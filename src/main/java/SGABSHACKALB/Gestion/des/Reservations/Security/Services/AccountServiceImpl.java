@@ -35,9 +35,7 @@ public class AccountServiceImpl implements AccountService {
     public AppRole addNewRole(AppRole appRole) {
         return appRoleRepository.save(appRole);
     }
-
     // Adding Role to a Specific User
-
     @Override
     public void addRoleToUser(String username, String roleName) {
         AppUser appUser = appUserRepository.findByUsername(username);
@@ -54,4 +52,11 @@ public class AccountServiceImpl implements AccountService {
     public List<AppUser> listUsers() {
         return appUserRepository.findAll();
     }
+
+    @Override
+    public List<AppRole> listRoles() {
+        return appRoleRepository.findAll();
+    }
+
+
 }
