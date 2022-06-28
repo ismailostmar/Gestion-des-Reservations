@@ -27,22 +27,17 @@ public class GestionDesReservationsApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
+    //@Bean
     CommandLineRunner start(AccountService accountService) {
         return args -> {
             accountService.addNewRole(new AppRole(null,"ADMIN"));
             accountService.addNewRole(new AppRole(null, "USER"));
 
-            accountService.addNewUser(new AppUser(null, "user1", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "admin", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "user2", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "user3", "1234", new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "user1", "user@gmail.com", "1234",new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null, "admin", "admin@gmail.com","1234", new ArrayList<>()));
 
             accountService.addRoleToUser("user1", "USER");
             accountService.addRoleToUser("admin","ADMIN");
-            accountService.addRoleToUser("user2","USER");
-            accountService.addRoleToUser("user3","USER");
         };
     }
 }

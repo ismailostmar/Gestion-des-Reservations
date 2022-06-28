@@ -18,8 +18,9 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<AppRole> appRoles= new ArrayList<>();
+    public Collection<AppRole> appRoles= new ArrayList<>();
 }
