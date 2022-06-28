@@ -1,6 +1,5 @@
 package SGABSHACKALB.Gestion.des.Reservations;
 
-import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppRole;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppUser;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Services.AccountService;
 import org.springframework.boot.CommandLineRunner;
@@ -11,8 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -27,17 +24,13 @@ public class GestionDesReservationsApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    //@Bean
+    @Bean
     CommandLineRunner start(AccountService accountService) {
         return args -> {
-            accountService.addNewRole(new AppRole(null,"ADMIN"));
-            accountService.addNewRole(new AppRole(null, "USER"));
 
-            accountService.addNewUser(new AppUser(null, "user1", "user@gmail.com", "1234",new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "admin", "admin@gmail.com","1234", new ArrayList<>()));
+            accountService.addNewUser(new AppUser( "user1", "user@gmail.com", "1234"));
+            accountService.addNewUser(new AppUser( "admin", "admin@gmail.com","1234"));
 
-            accountService.addRoleToUser("user1", "USER");
-            accountService.addRoleToUser("admin","ADMIN");
         };
     }
 }

@@ -1,9 +1,8 @@
 package SGABSHACKALB.Gestion.des.Reservations.Security.Services;
 
-import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppRole;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Entities.AppUser;
-import SGABSHACKALB.Gestion.des.Reservations.Security.Repository.AppRoleRepository;
 import SGABSHACKALB.Gestion.des.Reservations.Security.Repository.AppUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,50 +12,23 @@ import java.util.List;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
-    private  final AppRoleRepository appRoleRepository;
-    private final  AppUserRepository appUserRepository;
-    private final PasswordEncoder passwordEncoder;
 
-
-    public AccountServiceImpl(AppRoleRepository appRoleRepository, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
-        this.appRoleRepository = appRoleRepository;
-        this.appUserRepository = appUserRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    @Autowired
+    private   AppUserRepository appUserRepository;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
     @Override
     public AppUser addNewUser(AppUser appUser) {
         String pw = appUser.getPassword();
         appUser.setPassword(passwordEncoder.encode(pw));
         return appUserRepository.save(appUser);
     }
-
-    @Override
-    public AppRole addNewRole(AppRole appRole) {
-        return appRoleRepository.save(appRole);
-    }
-    // Adding Role to a Specific User
-    @Override
-    public void addRoleToUser(String username, String roleName) {
-        AppUser appUser = appUserRepository.findByUsername(username);
-        AppRole appRole = appRoleRepository.findByRoleName(roleName);
-        appUser.getAppRoles().add(appRole);
-    }
-
     @Override
     public AppUser loadUserByUsername(String username) {
         return appUserRepository.findByUsername(username);
     }
-
     @Override
     public List<AppUser> listUsers() {
         return appUserRepository.findAll();
     }
-
-    @Override
-    public List<AppRole> listRoles() {
-        return appRoleRepository.findAll();
-    }
-
-
 }
