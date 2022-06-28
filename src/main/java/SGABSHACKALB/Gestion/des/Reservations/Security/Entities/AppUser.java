@@ -11,7 +11,6 @@ import java.util.Collection;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class AppUser {
     @Id
@@ -21,6 +20,10 @@ public class AppUser {
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    public Collection<AppRole> appRoles= new ArrayList<>();
+    public AppUser(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }
+
