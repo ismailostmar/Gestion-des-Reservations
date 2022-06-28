@@ -24,13 +24,11 @@ public class GestionDesReservationsApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
+    //@Bean
     CommandLineRunner start(AccountService accountService) {
         return args -> {
-
             accountService.addNewUser(new AppUser( "user1", "user@gmail.com", "1234"));
             accountService.addNewUser(new AppUser( "admin", "admin@gmail.com","1234"));
-
         };
     }
 }
